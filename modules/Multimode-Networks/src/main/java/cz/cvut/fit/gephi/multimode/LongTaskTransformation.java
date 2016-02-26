@@ -86,8 +86,9 @@ public class LongTaskTransformation implements LongTask, Runnable {
 
         // first matrix
         Matrix firstMatrix = new Matrix(firstVertical.size(), firstHorizontal.size());
+    
         for (int i = 0; i < firstVertical.size(); i++) {
-            Set<Node> intersection = new HashSet<Node>(Arrays.asList(graph.getNeighbors(firstVertical.get(i)).toArray()));
+            Set<Node> intersection = new HashSet<Node>(graph.getNeighbors(firstVertical.get(i)).toCollection());
             if (intersection.size() > 0) {
                 try {
                     intersection.retainAll(firstHorizontal);
@@ -102,8 +103,7 @@ public class LongTaskTransformation implements LongTask, Runnable {
         // second matrix
         Matrix secondMatrix = new Matrix(secondVertical.size(), secondHorizontal.size());
         for (int i = 0; i < secondVertical.size(); i++) {
-            
-            Set<Node> intersection = new HashSet<Node>(Arrays.asList(graph.getNeighbors(secondVertical.get(i)).toArray()));
+            Set<Node> intersection = new HashSet<Node>(graph.getNeighbors(secondVertical.get(i)).toCollection());
             if (intersection.size() > 0) {
                 try {
                     intersection.retainAll(secondHorizontal);
