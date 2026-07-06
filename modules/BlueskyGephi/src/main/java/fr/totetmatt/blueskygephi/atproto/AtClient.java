@@ -42,10 +42,13 @@ ExecutorService executorService = Executors.newFixedThreadPool(2);
                     .header("Content-Type", "application/json")
                     .build();
             var response = client.send(request, HttpResponse.BodyHandlers.ofString());
+            if (response.statusCode() != 200) {
+                return false;
+            }
             this.session = objectMapper.readValue(response.body(), ComAtprotoServerCreateSession.class);
             return true;
         } catch (IOException | InterruptedException e) {
-            throw new RuntimeException(e);
+            return false;
         }
     }
 
@@ -120,7 +123,7 @@ ExecutorService executorService = Executors.newFixedThreadPool(2);
         }
         return null;
     }
-    
+
      public List<AppBskyGraphGetList> appBskyGraphGetList(String list) {
          List<AppBskyGraphGetList> lists = new ArrayList<>();
         try {
@@ -136,7 +139,7 @@ ExecutorService executorService = Executors.newFixedThreadPool(2);
                 if (objectResponse.getCursor() == null) {
                         break;
                 }
-               
+
                 params.put("cursor", objectResponse.getCursor());
             }
         } catch (IOException | InterruptedException ex) {
